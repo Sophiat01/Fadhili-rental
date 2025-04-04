@@ -20,7 +20,7 @@ if(isset($_POST['submit'])){
    $pass = sha1($_POST['pass']);
    $pass = filter_var($pass, FILTER_SANITIZE_STRING); 
    $c_pass = sha1($_POST['c_pass']);
-   $c_pass = filter_var($c_pass, FILTER_SANITIZE_STRING);   
+   $c_pass = filter_var($c_pass,A FILTER_SANITIZE_STRING);   
 
    $select_users = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
    $select_users->execute([$email]);
@@ -31,7 +31,7 @@ if(isset($_POST['submit'])){
       if($pass != $c_pass){
          $warning_msg[] = 'Password not matched!';
       }else{
-         $insert_user = $conn->prepare("INSERT INTO `users`(id, name, number, email, password) VALUES(?,?,?,?,?)");
+         $insert_user = $conn->prepare("INSERT INTO `users`(id, name, number, email, password, role) VALUES(?,?,?,?,?,'buyer')");
          $insert_user->execute([$id, $name, $number, $email, $c_pass]);
          
          if($insert_user){
@@ -41,8 +41,8 @@ if(isset($_POST['submit'])){
          
             if($verify_users->rowCount() > 0){
                setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
+               setcookie('user_role', $row['role'], time() + 60*60*24*30, '/'); // Store role
                $success_msg[] = 'Registration successful! Welcome, ' . $name . '!';
-               // Remove header redirect and let JavaScript handle it later
             }else{
                $error_msg[] = 'Something went wrong!';
             }
@@ -60,42 +60,30 @@ if(isset($_POST['submit'])){
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Register</title>
-
-   <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
-   <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
-
 </head>
 <body>
    
 <?php include 'components/user_header.php'; ?>
 
-<!-- register section starts  -->
-
 <section class="form-container">
-
    <form action="" method="post">
       <h3>create an account!</h3>
-      <input type="tel" name="name" required maxlength="50" placeholder="Enter your name" class="box">
+      <input type="text" name="name" required maxlength="50" placeholder="Enter your name" class="box">
       <input type="email" name="email" required maxlength="50" placeholder="Enter your email" class="box">
       <input type="number" name="number" required min="0" max="9999999999" maxlength="10" placeholder="Enter your number" class="box">
       <input type="password" name="pass" required maxlength="20" placeholder="Enter your password" class="box">
       <input type="password" name="c_pass" required maxlength="20" placeholder="Confirm your password" class="box">
-      <p>already have an account? <a href="login.html">login now</a></p>
+      <p>already have an account? <a href="login.php">login now</a></p>
       <input type="submit" value="register now" name="submit" class="btn">
    </form>
-
 </section>
-
-<!-- register section ends -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
 <?php include 'components/footer.php'; ?>
 
-<!-- custom js file link  -->
 <script src="js/script.js"></script>
 
 <?php include 'components/message.php'; ?>

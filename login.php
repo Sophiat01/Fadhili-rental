@@ -21,8 +21,8 @@ if(isset($_POST['submit'])){
 
    if($select_users->rowCount() > 0){
       setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
+      setcookie('user_role', $row['role'], time() + 60*60*24*30, '/'); // Store role
       $success_msg[] = 'Login successful! Welcome back, ' . $row['name'] . '!';
-      // Remove header redirect and let JavaScript handle it later
    }else{
       $warning_msg[] = 'Incorrect username or password!';
    }
@@ -38,41 +38,26 @@ if(isset($_POST['submit'])){
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Login</title>
-
-   <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
-   <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
-
 </head>
 <body>
    
 <?php include 'components/user_header.php'; ?>
 
-<!-- login section starts  -->
-
 <section class="form-container">
-
    <form action="" method="post">
       <h3>Welcome Back!</h3>
       <input type="email" name="email" required maxlength="50" placeholder="Enter your email" class="box">
       <input type="password" name="pass" required maxlength="20" placeholder="Enter your password" class="box">
-      <p>Don't have an account? <a href="register.html">Register new</a></p>
+      <p>Don't have an account? <a href="register.php">Register new</a></p>
       <input type="submit" value="Login now" name="submit" class="btn">
    </form>
-
 </section>
 
-<!-- login section ends -->
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-
 <?php include 'components/footer.php'; ?>
-
-<!-- custom js file link  -->
 <script src="js/script.js"></script>
-
 <?php include 'components/message.php'; ?>
 
 </body>
