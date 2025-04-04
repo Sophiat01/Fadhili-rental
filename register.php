@@ -40,9 +40,9 @@ if(isset($_POST['submit'])){
             $row = $verify_users->fetch(PDO::FETCH_ASSOC);
          
             if($verify_users->rowCount() > 0){
-               $success_msg[] = 'Registration successful! Welcome, ' . $name . '!'; // Success message added
                setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
-               header('location:home.php');
+               $success_msg[] = 'Registration successful! Welcome, ' . $name . '!';
+               // Remove header redirect and let JavaScript handle it later
             }else{
                $error_msg[] = 'Something went wrong!';
             }
