@@ -20,6 +20,7 @@ if(isset($_POST['submit'])){
    $row = $select_users->fetch(PDO::FETCH_ASSOC);
 
    if($select_users->rowCount() > 0){
+      $success_msg[] = 'Login successful! Welcome back, ' . $row['name'] . '!'; // Success message added
       setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
       header('location:home.php');
    }else{
@@ -64,15 +65,6 @@ if(isset($_POST['submit'])){
 </section>
 
 <!-- login section ends -->
-
-
-
-
-
-
-
-
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 

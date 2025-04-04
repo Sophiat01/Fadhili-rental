@@ -26,7 +26,7 @@ if(isset($_POST['submit'])){
    $select_users->execute([$email]);
 
    if($select_users->rowCount() > 0){
-      $warning_msg[] = 'email already taken!';
+      $warning_msg[] = 'Email already taken!';
    }else{
       if($pass != $c_pass){
          $warning_msg[] = 'Password not matched!';
@@ -40,16 +40,15 @@ if(isset($_POST['submit'])){
             $row = $verify_users->fetch(PDO::FETCH_ASSOC);
          
             if($verify_users->rowCount() > 0){
+               $success_msg[] = 'Registration successful! Welcome, ' . $name . '!'; // Success message added
                setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
                header('location:home.php');
             }else{
-               $error_msg[] = 'something went wrong!';
+               $error_msg[] = 'Something went wrong!';
             }
          }
-
       }
    }
-
 }
 
 ?>
@@ -91,15 +90,6 @@ if(isset($_POST['submit'])){
 </section>
 
 <!-- register section ends -->
-
-
-
-
-
-
-
-
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
