@@ -12,10 +12,8 @@ if(isset($_COOKIE['user_id']) && isset($_COOKIE['user_role'])){
    exit();
 }
 
-// Restrict access to only sellers and landlords
-if($user_role !== 'seller' && $user_role !== 'landlord'){
-   $warning_msg[] = 'Only sellers and landlords can post properties!';
-}else{
+// Only process posting if user is a seller or landlord
+if($user_role === 'seller' || $user_role === 'landlord'){
    if(isset($_POST['post'])){
 
       $id = create_unique_id();
@@ -145,6 +143,8 @@ if($user_role !== 'seller' && $user_role !== 'landlord'){
          $success_msg[] = 'Property posted successfully!';
       }
    }
+}else{
+   $warning_msg[] = 'Only sellers and landlords can post properties!';
 }
 
 ?>
@@ -244,4 +244,37 @@ if($user_role !== 'seller' && $user_role !== 'landlord'){
          </div>
          <div class="box">
             <p>Image 01 <span>*</span></p>
-            <input type="file" name="image_0
+            <input type="file" name="image_01" class="input" accept="image/*" required>
+         </div>
+         <div class="flex"> 
+            <div class="box">
+               <p>Image 02</p>
+               <input type="file" name="image_02" class="input" accept="image/*">
+            </div>
+            <div class="box">
+               <p>Image 03</p>
+               <input type="file" name="image_03" class="input" accept="image/*">
+            </div>
+            <div class="box">
+               <p>Image 04</p>
+               <input type="file" name="image_04" class="input" accept="image/*">
+            </div>
+            <div class="box">
+               <p>Image 05</p>
+               <input type="file" name="image_05" class="input" accept="image/*">
+            </div>   
+         </div>
+         <input type="submit" value="Post Property" class="btn" name="post">
+      </form>
+   <?php else: ?>
+      <p>You do not have permission to post properties. Only sellers and landlords can perform this action.</p>
+   <?php endif; ?>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<?php include 'components/footer.php'; ?>
+<script src="js/script.js"></script>
+<?php include 'components/message.php'; ?>
+
+</body>
+</html>
